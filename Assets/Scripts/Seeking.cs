@@ -1,8 +1,6 @@
 using UnityEngine;
 using System.Collections;
 
-// TODO: Doesn't work. Never gets a target. Come back to this later when I've
-// got more combat figured out.
 public class Seeking : MonoBehaviour {
 
     [Tooltip("The Tag for the object we are seeking.")]
@@ -16,6 +14,8 @@ public class Seeking : MonoBehaviour {
 
     void Start()
     {
+        // HACK: For now, just find the player immediately.
+        target = GameObject.FindGameObjectsWithTag(targetTag)[0].transform.parent.gameObject;
     }
 
     void Update()
@@ -52,6 +52,8 @@ public class Seeking : MonoBehaviour {
     }
 
 
+// TODO: Doesn't work. Never gets a target. Come back to this later when I've
+// got more combat figured out.
     void TryToTarget(GameObject other)
     {
         if (other.CompareTag(targetTag))
