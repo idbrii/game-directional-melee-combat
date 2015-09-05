@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class HeroicAttacking : MonoBehaviour {
+public class Attacking : MonoBehaviour {
 
     public enum eAttackDirection
     {
@@ -15,6 +15,8 @@ public class HeroicAttacking : MonoBehaviour {
     public GameObject leftDamager;
     [Tooltip("The right damager object we'll use for right attacks.")]
     public GameObject rightDamager;
+    [Tooltip("The back damager object we'll use for back attacks.")]
+    public GameObject backDamager;
     
 
     [HideInInspector]
@@ -94,8 +96,7 @@ public class HeroicAttacking : MonoBehaviour {
                 return leftDamager;
         
             case eAttackDirection.Back:
-                Debug.Log("Back attack is unimplemented", this);
-                return null;
+                return backDamager;
 
             case eAttackDirection.NoAttack:
                 Dbg.Assert(false, "Should not UpdateAttack invalid attack.");

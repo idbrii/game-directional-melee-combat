@@ -5,20 +5,20 @@ using System.Collections.Generic;
 public class Controlling : MonoBehaviour {
 
     [HideInInspector]
-    private HeroicAttacking target;
+    private Attacking target;
     [HideInInspector]
-    private Dictionary<string, HeroicAttacking.eAttackDirection> attackMap;
+    private Dictionary<string, Attacking.eAttackDirection> attackMap;
     
 
     void Start()
     {
-        attackMap = new Dictionary<string, HeroicAttacking.eAttackDirection>();
+        attackMap = new Dictionary<string, Attacking.eAttackDirection>();
             //"Jump"
-        attackMap["RightAttack"] = HeroicAttacking.eAttackDirection.Right;
-        attackMap["LeftAttack" ] = HeroicAttacking.eAttackDirection.Left;
-        attackMap["BackAttack" ] = HeroicAttacking.eAttackDirection.Back;
+        attackMap["RightAttack"] = Attacking.eAttackDirection.Right;
+        attackMap["LeftAttack" ] = Attacking.eAttackDirection.Left;
+        attackMap["BackAttack" ] = Attacking.eAttackDirection.Back;
 
-        target = GetComponent<HeroicAttacking>();
+        target = GetComponent<Attacking>();
     }
 
     // Update is called once per frame
@@ -33,7 +33,7 @@ public class Controlling : MonoBehaviour {
             {
                 Debug.Log(string.Format("Input {0}: {1}", b, has_fired), this);
 
-                HeroicAttacking.eAttackDirection dir = attackMap[b];
+                Attacking.eAttackDirection dir = attackMap[b];
                 target.nextAttackDirection = dir;
             }
         }
