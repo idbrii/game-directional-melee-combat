@@ -27,6 +27,28 @@ public class Attacking : MonoBehaviour {
     [Tooltip("The number of seconds an attack lasts.")]
     public float attackDurationSeconds = 1;
 
+    public bool IsAttackInProgress()
+    {
+        return nextAttackDirection == eAttackDirection.NoAttack;
+    }
+
+    public float AttackProgressPercent
+    {
+        get
+        {
+            return secondsRemainingInAttack / attackDurationSeconds;
+        }
+    }
+
+    public void CauseDamage()
+    {
+        var damagee = target.GetComponent<Attacking>();
+        damagee.ReceiveDamage(gameObject);
+    }
+
+    protected abstract void ReceiveDamage(GameObject damager)
+    {
+    }
 
     void Start()
     {
@@ -46,7 +68,7 @@ public class Attacking : MonoBehaviour {
 
     void ProcessNextAttack()
     {
-        if (nextAttackDirection == eAttackDirection.NoAttack)
+        if (IsAttackInProgress())
         {
             return;
         }
@@ -78,7 +100,7 @@ public class Attacking : MonoBehaviour {
 
         // TODO: For now, we just spin to show something is happening. Should
         // change this to translation so it looks more like a punch.
-        float spin_progress = secondsRemainingInAttack / attackDurationSeconds;
+        float spin_progress = AttackProgressPercent;
 
         var v = target.transform.localEulerAngles;
         v.y = 360 * spin_progress;

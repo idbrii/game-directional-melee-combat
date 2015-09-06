@@ -4,9 +4,7 @@ using System.Collections.Generic;
 
 public class Controlling : MonoBehaviour {
 
-    [HideInInspector]
     private Attacking target;
-    [HideInInspector]
     private Dictionary<string, Attacking.eAttackDirection> attackMap;
     
 
