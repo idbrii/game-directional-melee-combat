@@ -5,17 +5,22 @@ public class Vitality : MonoBehaviour
 {
     [Tooltip("The owner's starting health amount. Used to determine if we've taken damage.")]
     public float initialHealth = 100f;
-    [HideInInspector]
-    public float health;
+    public float Health { get; private set; }
+
     [HideInInspector]
     public bool isDead = false;
+
+    void Start()
+    {
+        Health = initialHealth;
+    }
 
     void Update()
     {
         // Draw lofi health bar
         Vector3 start = transform.position;
         Vector3 full_end = start + Vector3.right;
-        Vector3 end = Vector3.MoveTowards(start, full_end, health / initialHealth);
+        Vector3 end = Vector3.MoveTowards(start, full_end, Health / initialHealth);
 		Debug.DrawLine(start, full_end, Color.white);
 		Debug.DrawLine(start, end, Color.red);
     }
@@ -27,7 +32,7 @@ public class Vitality : MonoBehaviour
         {
             // do nothing
         }
-        else if (health < damageAmount)
+        else if (Health < damageAmount)
         {
             Die(enemy);
         }
@@ -39,13 +44,13 @@ public class Vitality : MonoBehaviour
 
     void HandleDamage(GameObject enemy, float damageAmount)
     {
-        health -= damageAmount;
+        Health -= damageAmount;
     }
 
     void Die(GameObject killer)
     {
         isDead = true;
-        health = 0f;
+        Health = 0f;
     }
 }
 
