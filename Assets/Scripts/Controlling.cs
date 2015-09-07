@@ -5,12 +5,11 @@ using System.Collections.Generic;
 public class Controlling : MonoBehaviour {
 
     private Attacking attackController;
-    private Dictionary<string, Attacking.eAttackDirection> attackMap;
+    private Dictionary<string, Attacking.eAttackDirection> attackMap = new Dictionary<string, Attacking.eAttackDirection>();
     
 
     void Start()
     {
-        attackMap = new Dictionary<string, Attacking.eAttackDirection>();
             //"Jump"
         attackMap["RightAttack"] = Attacking.eAttackDirection.Right;
         attackMap["LeftAttack" ] = Attacking.eAttackDirection.Left;
