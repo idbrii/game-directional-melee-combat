@@ -63,7 +63,7 @@ public class Attacking : MonoBehaviour
 
     public bool IsAttackInProgress()
     {
-        return nextAttackDirection != eAttackDirection.NoAttack;
+        return currentAttackDirection != eAttackDirection.NoAttack;
     }
 
     float CalcAttackProgressPercent()
@@ -91,13 +91,13 @@ public class Attacking : MonoBehaviour
         {
             UpdateStun(delta_time);
         }
-        else if (currentAttackDirection == eAttackDirection.NoAttack)
+        else if (IsAttackInProgress())
         {
-            ProcessNextAttack();
+            UpdateAttack(delta_time);
         }
         else
         {
-            UpdateAttack(delta_time);
+            ProcessNextAttack();
         }
     }
 
