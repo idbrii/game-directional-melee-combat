@@ -7,7 +7,7 @@ public class Strategizing : MonoBehaviour {
     
     [Tooltip("Minimum time between attack starts.")]
     [Range(0.01f,100f)]
-    public float minSecondsBetweenAttacks;
+    public float minSecondsBetweenAttacks = 3f;
     private float secondsToNextAttack = 0f;
 
     void Start()
