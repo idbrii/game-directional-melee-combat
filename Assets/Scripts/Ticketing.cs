@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class Ticketing : MonoBehaviour {
 
+    // TODO: Consider removing type and just using the parent gameObject
+    // instead.
     [Tooltip("The category of ticket: it's purpose.")]
     public GameObject ticketType;
     [Tooltip("Maximum allowed tickets of this type that can be dispensed.")]

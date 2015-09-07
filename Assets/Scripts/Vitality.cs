@@ -12,10 +12,12 @@ public class Vitality : MonoBehaviour
 
     void Update()
     {
+        // Draw lofi health bar
         Vector3 start = transform.position;
         Vector3 full_end = start + Vector3.right;
         Vector3 end = Vector3.MoveTowards(start, full_end, health / initialHealth);
-		Debug.DrawLine(start, end);
+		Debug.DrawLine(start, full_end, Color.white);
+		Debug.DrawLine(start, end, Color.red);
     }
 
 

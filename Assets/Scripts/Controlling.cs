@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Controlling : MonoBehaviour {
 
-    private Attacking target;
+    private Attacking attackController;
     private Dictionary<string, Attacking.eAttackDirection> attackMap;
     
 
@@ -16,10 +16,9 @@ public class Controlling : MonoBehaviour {
         attackMap["LeftAttack" ] = Attacking.eAttackDirection.Left;
         attackMap["BackAttack" ] = Attacking.eAttackDirection.Back;
 
-        target = GetComponent<Attacking>();
+        attackController = GetComponent<Attacking>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         // TODO: how to handle multiple inputs on one frame? Right now we get
@@ -32,7 +31,7 @@ public class Controlling : MonoBehaviour {
                 Debug.Log(string.Format("Input {0}: {1}", b, has_fired), this);
 
                 Attacking.eAttackDirection dir = attackMap[b];
-                target.nextAttackDirection = dir;
+                attackController.QueueAttack(dir);
             }
         }
     }

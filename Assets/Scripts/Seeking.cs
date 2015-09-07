@@ -9,23 +9,29 @@ public class Seeking : MonoBehaviour {
     [Tooltip("How far we move in one frame.")]
     public float stepDistance = 5;
     
-    private GameObject target = null;
+    private GameObject selectedTarget = null;
     private GameObject ticketAcquired = null;
+
+    public GameObject SelectedTarget
+    {
+        get;
+        private set;
+    }
 
     void Start()
     {
         // HACK: For now, just find the player immediately.
-        target = GameObject.FindGameObjectsWithTag(targetTag)[0].transform.parent.gameObject;
+        selectedTarget = GameObject.FindGameObjectsWithTag(targetTag)[0].transform.parent.gameObject;
     }
 
     void Update()
     {
         if (ticketAcquired == null)
         {
-            Transform closest_locator = FindClosestTaggedChild(target, transform.position);
+            Transform closest_locator = FindClosestTaggedChild(selectedTarget, transform.position);
             if (closest_locator)
             {
-                bool success = AcquireTicket(target, closest_locator.gameObject);
+                bool success = AcquireTicket(selectedTarget, closest_locator.gameObject);
                 if (success)
                 {
                     transform.LookAt(closest_locator);
@@ -90,7 +96,7 @@ public class Seeking : MonoBehaviour {
     {
         if (other.CompareTag(targetTag))
         {
-            target = other;
+            selectedTarget = other;
         }
     }
 
