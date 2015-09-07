@@ -17,6 +17,7 @@ public class Attacking : MonoBehaviour
         Starting,
         Swinging,
         Landing,
+        Landed,
         Done
     }
 
@@ -124,7 +125,7 @@ public class Attacking : MonoBehaviour
         if (should_try_to_land_attack)
         {
             LandAttack();
-            currentAttackWindow = eAttackWindow.Done;
+            currentAttackWindow = eAttackWindow.Landed;
         }
 
         return should_try_to_land_attack;
@@ -190,9 +191,15 @@ public class Attacking : MonoBehaviour
         Dbg.Assert(percentUntilSwinging < percentUntilLanding, "Must swing before we can land");
 
         float progress = CalcAttackProgressPercent();
-        if (progress < 0)
+        if (progress < 0 || progress >= 1f)
         {
+            // Invalid progress values must mean we're done.
             return eAttackWindow.Done;
+        }
+        else if (currentAttackWindow == eAttackWindow.Landed)
+        {
+            // Stay in Landed until time runs out.
+            return eAttackWindow.Landed;
         }
         else if (progress > percentUntilLanding)
         {
@@ -253,6 +260,7 @@ public class Attacking : MonoBehaviour
                 case eAttackWindow.Landing:
                     return eAttackResult.Block;
 
+                case eAttackWindow.Landed:
                 case eAttackWindow.Done:
                     return eAttackResult.Hit;
             }
@@ -268,10 +276,17 @@ public class Attacking : MonoBehaviour
 
     void UpdateAttack(float delta_time)
     {
-        bool has_tried_to_land_attack = UpdateAttackWindow(delta_time);
+        // Determine where we are in attack and apply damage at the right time.
+        UpdateAttackWindow(delta_time);
 
+        // Determine how long remains in the animation and apply it.
+        UpdateAttackAnimation(delta_time);
+    }
+
+    void UpdateAttackAnimation(float delta_time)
+    {
         secondsRemainingInAttack -= delta_time;
-        if (secondsRemainingInAttack <= 0 || has_tried_to_land_attack)
+        if (secondsRemainingInAttack <= 0)
         {
             // Clear out both to ensure we're ignoring input entered while
             // attacking. We only pick up the next attack after the attack.
