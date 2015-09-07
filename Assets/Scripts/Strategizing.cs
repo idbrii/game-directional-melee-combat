@@ -5,6 +5,7 @@ public class Strategizing : MonoBehaviour {
 
     private Attacking attackController;
     
+    [Header("Attack planning")]
     [Tooltip("Minimum time between attack starts.")]
     [Range(0.01f,100f)]
     public float minSecondsBetweenAttacks = 3f;
