@@ -53,6 +53,13 @@ public class Attacking : MonoBehaviour
     private float secondsRemainingInStun = 0;
     [Tooltip("Whether this object is capable of blocking incoming attacks by starting an attack in the same direction.")]
     public bool canBlock = true;
+    [Tooltip("An object we can rotate to communicate that we're stunned.")]
+    public Transform stunIndicator;
+    [Tooltip("How fast to spin indicator.")]
+    [Range(0.01f,30f)]
+    public float stunIndicatorSpinSpeed = 3f;
+    
+
 
     public bool IsAttackInProgress()
     {
@@ -84,8 +91,9 @@ public class Attacking : MonoBehaviour
             secondsRemainingInStun -= Time.deltaTime;
 
             // Some kind of UI to show we're stunned.
-            Vector3 start = transform.position + Vector3.up * 2.1f;
-            Debug.DrawLine(start, start + Vector3.up + Vector3.right, Color.blue);
+            var v = stunIndicator.transform.localEulerAngles;
+            v.y += stunIndicatorSpinSpeed;
+            stunIndicator.transform.localEulerAngles = v;
         }
         else if (currentAttackDirection == eAttackDirection.NoAttack)
         {

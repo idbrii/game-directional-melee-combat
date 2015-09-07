@@ -10,20 +10,23 @@ public class Vitality : MonoBehaviour
     [HideInInspector]
     public bool isDead = false;
 
+    [Tooltip("An object we can scale to communicate the current health.")]
+    public Transform healthIndicator;
+    Vector3 baseScale; // the original scale of the object
+
     void Start()
     {
         Health = initialHealth;
+
+        baseScale = healthIndicator.localScale;
     }
 
     void Update()
     {
         // Draw lofi health bar
-        Vector3 start = transform.position + Vector3.up * 2.1f;
-        Vector3 full_end = start + Vector3.right;
-        Vector3 end = Vector3.MoveTowards(start, full_end, Health / initialHealth);
-        Vector3 offset = Vector3.up * -0.05f;
-		Debug.DrawLine(start + offset, full_end + offset, Color.white);
-		Debug.DrawLine(start, end, Color.red);
+
+        float health_pct = Health / initialHealth;
+        healthIndicator.localScale = baseScale * health_pct;
     }
 
 
