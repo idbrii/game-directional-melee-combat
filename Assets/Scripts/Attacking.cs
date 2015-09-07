@@ -44,9 +44,6 @@ public class Attacking : MonoBehaviour
     private eAttackDirection nextAttackDirection = eAttackDirection.NoAttack;
     private eAttackDirection currentAttackDirection = eAttackDirection.NoAttack;
 
-    [Tooltip("How much rotation to use for the attack animation.")]
-    public float totalAttackAnimRotation = 90f;
-
     [Header("Blocking and stun")]
     [Tooltip("How long this object's stun lasts.")]
     public float secondsForStun = 3;
@@ -291,8 +288,6 @@ public class Attacking : MonoBehaviour
             return;
         }
 
-        // TODO: For now, we just spin to show something is happening. Should
-        // change this to translation so it looks more like a punch.
         float spin_progress = CalcAttackProgressPercent();
 
         float direction = 1f;
@@ -301,9 +296,8 @@ public class Attacking : MonoBehaviour
             direction = -1f;
         }
 
-        var v = target.transform.localEulerAngles;
-        v.y = direction * totalAttackAnimRotation * spin_progress;
-        target.transform.localEulerAngles = v;
+        var anim = target.GetComponent<LofiTransformAnimation>();
+        anim.UpdateWithProgress(spin_progress, direction);
     }
 
     GameObject GetTargetDamager(eAttackDirection direction)
