@@ -22,12 +22,14 @@ public class LofiTransformAnimation : MonoBehaviour
         damagerDistanceToTravel = Vector3.Distance(damagerBasePosition, damagerTargetPosition);
     }
 
+    float CalcProgress(float linear_progress)
+    {
+        return Mathf.Sin(linear_progress * Mathf.PI);
+    }
+
     public void UpdateWithProgress(float progress, float direction)
     {
-        if (progress > 0.5f)
-        {
-            progress = 1f - progress;
-        }
+        progress = CalcProgress(progress);
 
         UpdateRotationWithProgress(progress, direction);
         UpdateTranslationWithProgress(progress);
