@@ -113,10 +113,7 @@ public class Attacking : MonoBehaviour
 
     void ProcessNextAttack()
     {
-        if (IsAttackInProgress())
-        {
-            return;
-        }
+        Dbg.Assert(!IsAttackInProgress(), "Precondition violated.");
 
         currentAttackDirection = nextAttackDirection;
         nextAttackDirection = eAttackDirection.NoAttack;
