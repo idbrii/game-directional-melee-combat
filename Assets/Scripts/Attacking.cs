@@ -168,7 +168,13 @@ public class Attacking : MonoBehaviour
         }
 
         var collisions = damager.GetComponent<ColliderCollector>();
-        return collisions.GetFirstOverlappingObject();
+        var found = collisions.GetFirstOverlappingObject();
+        if (found != null)
+        {
+            found = found.transform.root.gameObject;
+        }
+
+        return found;
     }
 
     eAttackWindow CalcAttackWindow()
