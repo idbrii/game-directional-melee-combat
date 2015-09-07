@@ -84,7 +84,8 @@ public class Attacking : MonoBehaviour
             secondsRemainingInStun -= Time.deltaTime;
 
             // Some kind of UI to show we're stunned.
-            Debug.DrawLine(transform.position, transform.position + Vector3.up, Color.blue);
+            Vector3 start = transform.position + Vector3.up * 2.1f;
+            Debug.DrawLine(start, start + Vector3.up + Vector3.right, Color.blue);
         }
         else if (currentAttackDirection == eAttackDirection.NoAttack)
         {
