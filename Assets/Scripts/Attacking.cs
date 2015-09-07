@@ -68,7 +68,7 @@ public class Attacking : MonoBehaviour
 
     float CalcAttackProgressPercent()
     {
-        return secondsRemainingInAttack / attackDurationSeconds;
+        return 1f - (secondsRemainingInAttack / attackDurationSeconds);
     }
 
     public bool IsStunned
