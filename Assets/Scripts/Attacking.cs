@@ -63,7 +63,7 @@ public class Attacking : MonoBehaviour
 
     public bool IsAttackInProgress()
     {
-        return nextAttackDirection == eAttackDirection.NoAttack;
+        return nextAttackDirection != eAttackDirection.NoAttack;
     }
 
     float CalcAttackProgressPercent()
@@ -86,9 +86,10 @@ public class Attacking : MonoBehaviour
 
     void Update()
     {
+        float delta_time = Time.deltaTime;
         if (IsStunned)
         {
-            secondsRemainingInStun -= Time.deltaTime;
+            secondsRemainingInStun -= delta_time;
 
             // Some kind of UI to show we're stunned.
             var v = stunIndicator.transform.localEulerAngles;
@@ -101,7 +102,7 @@ public class Attacking : MonoBehaviour
         }
         else
         {
-            UpdateAttack();
+            UpdateAttack(delta_time);
         }
     }
 
@@ -117,13 +118,16 @@ public class Attacking : MonoBehaviour
         secondsRemainingInAttack = attackDurationSeconds;
     }
 
-    void UpdateAttackWindow(float delta_time)
+    bool UpdateAttackWindow(float delta_time)
     {
         currentAttackWindow = CalcAttackWindow();
-        if (currentAttackWindow == eAttackWindow.Landing)
+        bool should_try_to_land_attack = currentAttackWindow == eAttackWindow.Landing;
+        if (should_try_to_land_attack)
         {
             LandAttack();
         }
+
+        return should_try_to_land_attack;
     }
 
     void LandAttack()
@@ -176,7 +180,8 @@ public class Attacking : MonoBehaviour
             return null;
         }
 
-        var collisions = damager.GetComponent<ColliderCollector>();
+        var collisions = damager.GetComponentInChildren<ColliderCollector>();
+        Dbg.Assert(collisions != null, "Damager objects must contain a ColliderCollector in their hierarchy to determine what we've collided against to damage.");
         var found = collisions.GetFirstOverlappingObject();
         if (found != null)
         {
@@ -267,10 +272,12 @@ public class Attacking : MonoBehaviour
         }
     }
 
-    void UpdateAttack()
+    void UpdateAttack(float delta_time)
     {
-        secondsRemainingInAttack -= Time.deltaTime;
-        if (secondsRemainingInAttack <= 0)
+        bool has_tried_to_land_attack = UpdateAttackWindow(delta_time);
+
+        secondsRemainingInAttack -= delta_time;
+        if (secondsRemainingInAttack <= 0 || has_tried_to_land_attack)
         {
             // Clear out both to ensure we're ignoring input entered while
             // attacking. We only pick up the next attack after the attack.
