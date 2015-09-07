@@ -16,7 +16,7 @@ public class Controlling : MonoBehaviour {
         attackMap["LeftAttack" ] = Attacking.eAttackDirection.Left;
         attackMap["BackAttack" ] = Attacking.eAttackDirection.Back;
 
-        attackController = GetComponent<Attacking>();
+        attackController = GetComponentInChildren<Attacking>();
     }
 
     void Update()

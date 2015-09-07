@@ -12,7 +12,7 @@ public class Strategizing : MonoBehaviour {
 
     void Start()
     {
-        attackController = GetComponent<Attacking>();
+        attackController = GetComponentInChildren<Attacking>();
     }
 
     void Update()

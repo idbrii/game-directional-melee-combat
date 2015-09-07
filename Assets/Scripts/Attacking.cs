@@ -122,7 +122,7 @@ public class Attacking : MonoBehaviour
             return;
         }
 
-        Attacking damagee = attack_target.GetComponent<Attacking>();
+        Attacking damagee = attack_target.GetComponentInChildren<Attacking>();
         eAttackResult result = damagee.CalcAttackResult(this);
         damagee.HandleAttack(result);
     }
@@ -193,7 +193,7 @@ public class Attacking : MonoBehaviour
 
     void ApplyDamage(Attacking damager)
     {
-        Vitality health = GetComponent<Vitality>();
+        Vitality health = GetComponentInChildren<Vitality>();
         health.TakeDamage(damager.gameObject, 10);
     }
 
