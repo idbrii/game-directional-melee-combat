@@ -127,6 +127,7 @@ public class Attacking : MonoBehaviour
         if (should_try_to_land_attack)
         {
             LandAttack();
+            currentAttackWindow = eAttackWindow.Done;
         }
 
         return should_try_to_land_attack;
