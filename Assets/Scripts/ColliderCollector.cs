@@ -6,16 +6,19 @@ public class ColliderCollector : MonoBehaviour
 {
     List<GameObject> currentCollection = new List<GameObject>();
 
-    public GameObject GetFirstOverlappingObject()
+    public GameObject GetFirstOverlappingRootObject()
     {
-        if (currentCollection.Count > 0)
+        foreach (var other in currentCollection)
         {
-            return currentCollection[0];
+            Transform other_root = other.transform.root;
+            // Don't consider myself to be overlapping with my other parts.
+            if (other_root != transform.root)
+            {
+                return other_root.gameObject;
+            }
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }
 
     void OnTriggerEnter(Collider other)

@@ -185,13 +185,7 @@ public class Attacking : MonoBehaviour
 
         var collisions = damager.GetComponentInChildren<ColliderCollector>();
         Dbg.Assert(collisions != null, "Damager objects must contain a ColliderCollector in their hierarchy to determine what we've collided against to damage.");
-        var found = collisions.GetFirstOverlappingObject();
-        if (found != null)
-        {
-            found = found.transform.root.gameObject;
-        }
-
-        return found;
+        return collisions.GetFirstOverlappingRootObject();
     }
 
     eAttackWindow CalcAttackWindow()
