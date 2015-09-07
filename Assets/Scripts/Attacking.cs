@@ -89,12 +89,7 @@ public class Attacking : MonoBehaviour
         float delta_time = Time.deltaTime;
         if (IsStunned)
         {
-            secondsRemainingInStun -= delta_time;
-
-            // Some kind of UI to show we're stunned.
-            var v = stunIndicator.transform.localEulerAngles;
-            v.y += stunIndicatorSpinSpeed;
-            stunIndicator.transform.localEulerAngles = v;
+            UpdateStun(delta_time);
         }
         else if (currentAttackDirection == eAttackDirection.NoAttack)
         {
@@ -104,6 +99,16 @@ public class Attacking : MonoBehaviour
         {
             UpdateAttack(delta_time);
         }
+    }
+
+    void UpdateStun(float delta_time)
+    {
+        secondsRemainingInStun -= delta_time;
+
+        // Some kind of UI to show we're stunned.
+        var v = stunIndicator.transform.localEulerAngles;
+        v.y += stunIndicatorSpinSpeed;
+        stunIndicator.transform.localEulerAngles = v;
     }
 
     void ProcessNextAttack()
